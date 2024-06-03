@@ -1,0 +1,71 @@
+<!-- instructions_accidental.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/videos.css') }}">
+
+    <div class="play-video-button">
+
+        <!-- "Play button" because you can't autoplay anything and I don't know how to make an SPA  ¯\_(ツ)_/¯-->
+        <img class="play-video-text" src="{{ url_for('static', filename='images/instructions/clickVideo.png') }}" alt="video play text here">
+        <img class="play-video-button" src="{{ url_for('static', filename='images/instructions/playVideo.png') }}" alt="video play button here" id="info">
+        
+    </div>
+
+    <div class="play-video-container">
+        <!-- Video to play based on random assignment -->
+        
+        {% if assigned_data.condition1 == 'Accidental' %}
+            {% if assigned_data.toy1 == 'TubeToy' %}
+                <div id="accidental-tube-container">
+                    <video preload="auto" id="accidental-tube-video" oncontextmenu="return false;" disablePictureInPicture="true" autoplay="true">
+                        <source src="{{ url_for('static', filename='videos/accidental_tube_video.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- <p>MANUAL PROGRESSION FOR DEVELOPMENT:</p> -->
+                <a href="{{ url_for('tubeToy', child=child) }}" id="proceedLink1"></a>
+            {% elif assigned_data.toy1 == 'BoxToy' %}
+                <div id="accidental-box-container">
+                    <video preload="auto" id="accidental-box-video" oncontextmenu="return false;" disablePictureInPicture="true" autoplay="true">
+                        <source src="{{ url_for('static', filename='videos/accidental_box_video.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- <p>MANUAL PROGRESSION FOR DEVELOPMENT:</p> -->
+                <a href="{{ url_for('boxToy', child=child) }}" id="proceedLink2"></a>
+            {% else %}
+                <p>Unexpected condition or toy type at first condition assignment</p>
+            {% endif %}
+        {% endif %}
+
+        {% if assigned_data.condition2 == 'Accidental' %}
+            {% if assigned_data.toy2 == 'TubeToy' %}
+                <div id="accidental-tube-container">
+                    <video id="accidental-tube-video" preload="auto" oncontextmenu="return false;" disablePictureInPicture="true" autoplay="true">
+                        <source src="{{ url_for('static', filename='videos/accidental_tube_video.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- <p>MANUAL PROGRESSION FOR DEVELOPMENT:</p> -->
+                <a href="{{ url_for('tubeToy', child=child) }}" id="proceedLink1"></a>
+            {% elif assigned_data.toy2 == 'BoxToy' %}
+                <div id="accidental-box-container">
+                    <video preload="auto" id="accidental-box-video" oncontextmenu="return false;" disablePictureInPicture="true" autoplay="true">
+                        <source src="{{ url_for('static', filename='videos/accidental_box_video.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- <p>MANUAL PROGRESSION FOR DEVELOPMENT:</p> -->
+                <a href="{{ url_for('boxToy', child=child) }}" id="proceedLink2"></a>
+            {% else %}
+                <p>Unexpected condition or toy type at second condition assignment</p>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ url_for('static', filename='general.js') }}"></script>
+{% endblock %}

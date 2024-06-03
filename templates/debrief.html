@@ -1,0 +1,109 @@
+<!-- debrief.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='/general.js') }}"></script>
+
+<div class="debrief-button">
+    <img class="debrief-text" src="{{ url_for('static', filename='images/instructions/clickLearning.png') }}" alt="landing page image here">
+    <img class="debrief-button" src="{{ url_for('static', filename='images/instructions/playVideo.png') }}" alt="landing page image here" id="info">
+</div>
+
+<div class="lookit-arrow" id="debrief-lookit-arrow">
+    <img class="lookit-arrow" src="{{ url_for('static', filename='images/instructions/lookit/lookitEndArrow.png') }}" alt="lookitEndArrow">
+</div>
+
+<audio id="debriefMouseCheck" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/debriefMouseCheck.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/debriefMouseCheck.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<!-- Mouse/Cursor User check -->
+
+<div class="mouse-check" id="mouse-check">
+
+    <span>Thank you for playing with the two special toys!<br><br></span>
+    
+    <span>We hope you had as much fun playing as we did making these games for you.<br><br></span>
+
+    <span>Before we finish, <span style="font-weight: bold; font-style: italic;">adults</span>, we have one more quick question.<br><br></span>
+        
+    <span>
+        <span style="font-weight: bold; font-style: italic;">Did you help your child use the mouse or did they do it all on their own?</span> <br>
+        Please choose the option below: <br> <br>
+    </span>
+
+    <div class="choices">
+
+        <div class="icon mouse-check" id="adultClicked">
+
+            <span>
+                I helped my child and <br> used the mouse for them
+            </span>
+
+        </div>
+
+        <div class="icon mouse-check" id="childClicked">
+
+            <span>
+                I let my child control <br>the mouse on their own
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- maybe Browser check? -->
+
+<!-- audio on debrief play from here -->
+
+    <div class="debrief-container">
+        <div id="debriefs">
+            <p>Thank you, again, for playing with the two toys today! <br></p>
+            
+<!-- commented out for lookit -->
+            <!-- <span><p style="font-weight: bold;">Adults</p>, if you or your child would like to see the other games that are ready to play with, 
+                <br>please consider visiting
+            <a href="https://lookit.mit.edu/"> the Lookit Research Platform</a>
+            <br>to see even more of the other cool science games available!
+            <br>
+                <a href="https://lookit.mit.edu/" alt="lookit"> 
+                    <img class="lookitLogo" src="{{ url_for('static', filename='images/instructions/chs-logo.png') }}" alt="lookit logo"> 
+                </a>
+            <br>
+
+            If you would like to know more about our research, please visit <a href="https://projects.iq.harvard.edu/ccdlab"> our lab page here!</a>
+                <br>
+                <a href="https://projects.iq.harvard.edu/ccdlab" alt="lab"> 
+                    <img class="CCDLogo" src="{{ url_for('static', filename='images/instructions/CCD-Bonawitz.png') }}" alt="ccd bonawitz lab logo"> 
+                </a>
+            </span> -->
+        </div>
+    
+
+        <div id="feedback-container">
+            <span id="userTextPrompt">Optional: is there anything that you would like to tell us about the study that you just participated in?
+                <br>(e.g., did you like it? did everything seem to work?)  (up to 2000 characters per submit):</span><br><br>
+
+            <textarea id="userTypedText" maxlength="2000"></textarea>
+            <span id="remainingCharacters">Remaining Characters Available: 2000</span>
+            <button id="submitTypedText"><p>Submit</p></button>
+        </div>
+
+        <div id="tabCountdown">        
+            <span id="tabCountdownText">Thank you for your feedback! <br>
+                <br><p id="countdown">This page will redirect to Lookit in 3 </p></span><br><br>
+        </div>
+
+    </div>  
+
+{% endblock %}

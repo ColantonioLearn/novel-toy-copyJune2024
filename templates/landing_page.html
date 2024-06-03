@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='/general.js') }}"></script>
+
+    <div class="play-start-arrow">
+        <img class="play-start-text" src="{{ url_for('static', filename='images/instructions/clickStart.png') }}" alt="landing page image here">
+        <img class="play-start-arrow" src="{{ url_for('static', filename='images/instructions/playStart.png') }}" alt="landing page image here" id="info">
+    </div>
+
+    <div class="lookit-arrow">
+        <img id="landing-arrow" src="{{ url_for('static', filename='images/instructions/lookit/lookiStartArrow.png') }}" alt="lookiStartArrow">
+    </div>
+
+    <audio id="landingPageInstructions" preload="auto">
+        <!-- Joseph, unedited -->
+        <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/landingPageInstructions.mp3') }}" type="audio/mpeg"> -->
+
+        <!-- Edited -->
+        <source src="{{ url_for('static', filename='sounds/instructions/landingPageInstructions.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div class="landing-container" >
+
+        <div class="landing-hotspot">
+
+            <img src="{{ url_for('static', filename='images/instructions/landingPage.png') }}" alt="landing page image here" id="info">
+           
+            <div class="icon" id="blocker">
+            </div>
+
+            <!-- <div class="rightArrowIcon icon"> -->
+            <div>
+                {% if assigned_data.condition1 == 'Pedagogical' %}
+                    <a href="{{ url_for('instructions_pedagogical', child=child) }}">
+                        <img src="{{ url_for('static', filename='images/instructions/letsPlay.png') }}" id="arrowImage">
+                    </a>
+
+                {% elif assigned_data.condition1 == 'Accidental' %}
+                    <a href="{{ url_for('instructions_accidental', child=child) }}">
+                        <img src="{{ url_for('static', filename='images/instructions/letsPlay.png') }}" id="arrowImage">
+                    </a>
+
+                {% else %}
+                    <p>Something broke</p>
+                
+                {% endif %}
+            </div>
+
+            <!-- Preload videos -->
+        {% if assigned_data.condition1 == 'Pedagogical' %}
+        {% if assigned_data.toy1 == 'TubeToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/pedagogical_tube_video.mp4') }}" type="video/mp4">
+            </video>
+        {% elif assigned_data.toy1 == 'BoxToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/pedagogical_box_video.mp4') }}" type="video/mp4">
+            </video>
+        {% endif %}
+    {% endif %}
+
+    {% if assigned_data.condition2 == 'Pedagogical' %}
+        {% if assigned_data.toy2 == 'TubeToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/pedagogical_tube_video.mp4') }}" type="video/mp4">
+            </video>
+        {% elif assigned_data.toy2 == 'BoxToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/pedagogical_box_video.mp4') }}" type="video/mp4">
+            </video>
+        {% endif %}
+    {% endif %}
+
+    {% if assigned_data.condition1 == 'Accidental' %}
+        {% if assigned_data.toy1 == 'TubeToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/accidental_tube_video.mp4') }}" type="video/mp4">
+            </video>
+        {% elif assigned_data.toy1 == 'BoxToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/accidental_box_video.mp4') }}" type="video/mp4">
+            </video>
+        {% endif %}
+    {% endif %}
+
+    {% if assigned_data.condition2 == 'Accidental' %}
+        {% if assigned_data.toy2 == 'TubeToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/accidental_tube_video.mp4') }}" type="video/mp4">
+            </video>
+        {% elif assigned_data.toy2 == 'BoxToy' %}
+            <video preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='videos/accidental_box_video.mp4') }}" type="video/mp4">
+            </video>
+        {% endif %}
+    {% endif %}
+    
+        </div>
+    </div>
+
+{% endblock %}

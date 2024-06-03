@@ -1,0 +1,224 @@
+<!-- boxToy.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/toy.css') }}">
+
+<!-- Start exploration button -->
+<div class="play-toy-button" id="explorationStart">
+
+    <!-- "Play button" because you can't autoplay anything and I don't know how to make an SPA  ¯\_(ツ)_/¯-->
+    <img class="play-toy-text" src="{{ url_for('static', filename='images/instructions/clickToyPlay.png') }}" alt="video play text here">
+    <img class="play-toy-button" src="{{ url_for('static', filename='images/instructions/playStart.png') }}" alt="video play button here" id="info">
+    
+</div>
+
+<audio id="playInstructions" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/popUpToyInstructions.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/popUpToyInstructions.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<audio id="allDoneAudio" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/allDonePopUp.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/allDonePopUp.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<audio id="timesUpAudio" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/timesUpPopUp.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/timesUpPopUp.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<div class="instruction-container" id="playtime-start-box">
+    <img src="{{ url_for('static', filename='images/instructions/startPlaytimeInstructions_popUp.png') }}" alt="playtime_start_prompt_here">
+</div>
+
+<!-- pop-up for when child clicks "ALL DONE!" -->
+<div class="instruction-container" id="playtime-stopped-box">
+
+    <img src="{{ url_for('static', filename='images/instructions/allDone_PlayStoppingCriteria.png') }}" alt="playtime_stopped_prompt_here">
+
+    <!-- arrow outline for development resizing -->
+    <!-- <div class="icon rightArrowIcon" id="yesDone"></div> -->
+
+    <!-- click this to move to next step of procedure (either instructions of condition 2 or first learning assessment) -->
+    {% if assigned_data.toy1 == 'BoxToy' %}
+        {% if assigned_data.condition2 == 'Pedagogical' %}
+        <!-- <div class="icon rightArrowIcon" id="yesDone"> -->
+        <a href="{{ url_for('instructions_pedagogical', child=child) }}" class="icon rightArrowIcon" id="yesDone"></a>
+        
+        {% elif assigned_data.condition2 == 'Accidental' %}
+        <a href="{{ url_for('instructions_accidental', child=child) }}" class="icon rightArrowIcon" id="yesDone"></a>
+        {% endif %}
+    {% elif assigned_data.toy2 == 'BoxToy' %}
+    <!-- <div class="icon rightArrowIcon" id="yesDone"> -->
+    <a href="{{ url_for('learningTube', child=child) }}" class="icon rightArrowIcon" id="yesDone"> </a>
+    <!-- </div>  -->
+    {% else %}
+        <p>Error</p>
+    {% endif %}
+    
+    <!--  click this to keep playing -->
+    <div class="icon rightArrowIcon" id="noPlayMore"></div>
+
+</div>
+
+<!-- pop-up for end (timeout) of novel toy exploration task -->
+<div class="instruction-container" id="playtime-end-box">
+
+    <img src="{{ url_for('static', filename='images/instructions/timeFinished_PlayStoppingCriteria.png') }}" alt="playtime_start_prompt_here" id="timesUp">
+
+<!-- click this to move to next step of procedure (either instructions of condition 2 or first learning assessment) -->
+    {% if assigned_data.toy1 == 'BoxToy' %}
+        {% if assigned_data.condition2 == 'Pedagogical' %}
+        
+        <a href="{{ url_for('instructions_pedagogical', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+
+        {% elif assigned_data.condition2 == 'Accidental' %}
+
+        <a href="{{ url_for('instructions_accidental', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+
+        {% endif %}
+    {% elif assigned_data.toy2 == 'BoxToy' %}
+
+    <a href="{{ url_for('learningTube', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+
+    {% else %}
+        <p>Error</p>
+    {% endif %}
+    
+</div>
+
+<!-- Orange Pinwheel sound -->
+<audio id="notification-sound1" preload="auto" loop>
+    <source src="{{ url_for('static', filename='sounds/orangePinwheel-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Box Light Jam sound -->
+<audio id="notification-sound2" preload="auto" loop>
+    <source src="{{ url_for('static', filename='sounds/boxLight-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Pullcord & Rainbow Pinwheel Noise -->
+<!-- Cord windup:  https://freesound.org/people/TheFlyFishingFilmmaker/sounds/641696/-->
+<!-- <audio id="notification-sound2a" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/cordPull-sound.mp3') }}" type="audio/mpeg">
+</audio>
+<audio id="notification-sound2b" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/cordWindUp-sound.mp3') }}" type="audio/mpeg">
+</audio> -->
+<audio id="notification-sound2c" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/rainbowCrank-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Marbles Ratting sound -->
+<!-- credit: https://freesound.org/people/chloeg830/sounds/559805/ -->
+<audio id="notification-sound4" preload="auto" loop>
+    <source src="{{ url_for('static', filename='sounds/marbles-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Container for the interactive elements -->
+<div class="toy-container" data-toy="BoxToy">
+
+    <!-- Container for the image hotspot and interactive elements -->
+    <div class="image-hotspot">
+
+        <!-- Base image -->
+        <img src="{{ url_for('static', filename='images/boxToy/boxToyBase.png') }}" alt="boxToy hotspot should be here">
+
+        <!--  -->
+        <!-- Orange Pinwheel Spinning Function -->
+        <!-- Icon for interaction -->
+        <div class="icon orangePinwheelIcon spin initial" id="orangePinwheel function1">
+        </div>
+
+        <!-- Image within the function-box -->
+        <img class="function orangePinwheelImage spin initial" id="orangePinwheel function1" src="{{ url_for('static', filename='images/boxToy/OrangePinwheel.png') }}" alt="orange pinwheel">
+        <!--  Orange Pinwheel Spinning Function End -->
+        <!--  -->
+
+        <!--  -->
+        <!-- Box Light & Middle Switch Function -->
+        <!-- Icon for interaction -->
+        <div class="icon middleSwitchIcon off initial" id="boxLight function2">
+        </div>
+        
+        <!-- Image within the function-box -->
+        <img class="function middleSwitchImage off initial" id="boxLight function2" src="{{ url_for('static', filename='images/boxToy/middleSwitchOff.png') }}" alt="switch for boxLight">
+        <img class="function boxLightImage off initial" id="boxLight inert1" src="{{ url_for('static', filename='images/boxToy/boxLightOn.png') }}" alt="box light turned on here">
+        
+        <!-- Inert Parts -->
+        <div class="icon boxLightBulbIcon" id="boxLightBulb inert1" alt="clickable icon for boxLightBulb"></div>
+        
+        <!--  Box Light & Middle Switch Function End -->
+        <!--  -->
+
+        <!--  -->
+        <!-- Blue Cord & Rainbow Pinwheel Function -->
+        <!-- Icon for interaction -->
+        <div class="icon blueCordIcon off initial" id="cordWheel function3">
+        </div>
+        
+        <!-- Image within the function-box -->
+        <img class="function blueCordImage off initial" id="cordWheel function2" src="{{ url_for('static', filename='images/boxToy/function_Pullcord.png') }}" alt="cord for rainbowPinwheel">
+        <img class="function rainbowPinwheelImage off initial" id="cordWheel inert2" src="{{ url_for('static', filename='images/boxToy/cordPinwheel.png') }}" alt="rainbowPinwheel">
+        
+        <!-- Inert Parts -->
+        <div class="icon rainbowPinwheelIcon" id="cordWheel inert2" alt="clickable icon for rainbowPinwheel"></div>
+        <!--  Blue Cord & Rainbow Pinwheel Function End -->
+        <!--  -->
+
+        <!--  -->
+        <!-- Marbles Function -->
+        <!-- Icon for interaction -->
+        <div class="icon marbleButtonIcon off initial" id="marbles function4">
+        </div>
+
+        <!-- Image within the function-box -->
+        <img class="function marbleButtonImage off initial" id="marblesButton function4" src="{{ url_for('static', filename='images/boxToy/function_buttonOff.png') }}" alt="button for marbles">
+        <img class="function orangeMarbleImage off initial" id="marbles function4" src="{{ url_for('static', filename='images/boxToy/OrangeBall.png') }}" alt="orange marble">
+        <img class="function blueMarbleImage off initial" id="marbles function4" src="{{ url_for('static', filename='images/boxToy/BlueBall.png') }}" alt="blue marble">
+        
+        <!-- Inert Parts -->
+        <div class="icon orangeMarbleIcon off initial" id="orangeMarble inert4" alt="clickable icon for orange marble"></div>
+        <div class="icon blueMarbleIcon off initial" id="blueMarble inert4" alt="clickable icon for blue marble"></div>
+        
+        <!--  Marbles Function End -->
+        <!--  -->
+
+        <!--  -->
+        <!-- Inert Pig -->
+
+        <div class="icon" id="inertPig"></div>
+
+        <!--  -->
+
+        <!-- Clicking catch-all -->
+        <div class="icon blank-space-icon" id="blankClick"></div>
+
+    </div>
+
+    <!-- click to prompt stopping criteria -->
+    <div class="rightArrowIcon icon allDone" id="allDoneIcon"></div>
+    <img id="allDone" src="{{ url_for('static', filename='images/instructions/allDone.png') }}" alt="all done arrow image">
+
+
+</div>
+
+<!-- Scripts for jQuery and custom interaction -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="{{ url_for('static', filename='interaction.js') }}"></script>
+
+{% endblock %}

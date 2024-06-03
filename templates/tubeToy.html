@@ -1,0 +1,235 @@
+<!-- tubeToy.html -->
+{% extends 'base.html' %}
+{% block content %}
+<!-- <script>
+    var folderPath = "static/images/tubeToy/";
+</script> -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/toy.css') }}">
+
+<!-- disable playtime start pop-up and audio during development for sanity -->
+<!-- pop-up for start of novel toy exploration task -->
+
+<!-- Start exploration button -->
+<div class="play-toy-button" id="explorationStart">
+
+    <!-- "Play button" because you can't autoplay anything and I don't know how to make an SPA  ¯\_(ツ)_/¯-->
+    <img class="play-toy-text" src="{{ url_for('static', filename='images/instructions/clickToyPlay.png') }}" alt="video play text here">
+    <img class="play-toy-button" src="{{ url_for('static', filename='images/instructions/playStart.png') }}" alt="video play button here" id="info">
+    
+</div>
+
+<audio id="playInstructions" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/popUpToyInstructions.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/popUpToyInstructions.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<audio id="allDoneAudio" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/allDonePopUp.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/allDonePopUp.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+</audio>
+
+<audio id="timesUpAudio" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/timesUpPopUp.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/timesUpPopUp.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<div class="instruction-container" id="playtime-start-box">
+    <img src="{{ url_for('static', filename='images/instructions/startPlaytimeInstructions_popUp.png') }}" alt="playtime_start_prompt_here">
+</div>
+
+<!-- pop-up for when child clicks "ALL DONE!" -->
+<div class="instruction-container" id="playtime-stopped-box"> 
+
+    <img src="{{ url_for('static', filename='images/instructions/allDone_PlayStoppingCriteria.png') }}" alt="playtime_start_prompt_here">
+
+    <!-- arrow outline for development resizing -->
+    <!-- <div class="icon rightArrowIcon" id="yesDone"></div> -->
+
+    <!-- click this to move to next step of procedure (either instructions of condition 2 or first learning assessment) -->
+    {% if assigned_data.toy1 == 'TubeToy' %}
+        {% if assigned_data.condition2 == 'Pedagogical' %}
+        <!-- <div class="icon rightArrowIcon" id="yesDone"> -->
+        <a href="{{ url_for('instructions_pedagogical', child=child) }}" class="icon rightArrowIcon" id="yesDone"></a>
+        <!-- </div>  -->
+        {% elif assigned_data.condition2 == 'Accidental' %}
+        <!-- <div class="icon rightArrowIcon" id="yesDone"> -->
+        <a href="{{ url_for('instructions_accidental', child=child) }}" class="icon rightArrowIcon" id="yesDone"> </a>
+        <!-- </div>  -->
+        {% endif %}
+    {% elif assigned_data.toy2 == 'TubeToy' %}
+    <!-- <div class="icon rightArrowIcon" id="yesDone"> -->
+    <a href="{{ url_for('learningBox', child=child) }}" class="icon rightArrowIcon" id="yesDone"> </a>
+    <!-- </div>  -->
+    {% else %}
+        <p>Error</p>
+    {% endif %}
+    
+    <!--  click this to keep playing -->
+    <div class="icon rightArrowIcon" id="noPlayMore"></div>
+
+</div>
+
+<!-- pop-up for end (timeout) of novel toy exploration task -->
+<div class="instruction-container" id="playtime-end-box">
+
+    <img src="{{ url_for('static', filename='images/instructions/timeFinished_PlayStoppingCriteria.png') }}" alt="playtime_end_prompt_here" id="timesUp">
+
+<!-- click this to move to next step of procedure (either instructions of condition 2 or first learning assessment) -->
+
+    {% if assigned_data.toy1 == 'TubeToy' %}
+
+        {% if assigned_data.condition2 == 'Pedagogical' %}
+        <a href="{{ url_for('instructions_pedagogical', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+        
+        {% elif assigned_data.condition2 == 'Accidental' %}
+        <a href="{{ url_for('instructions_accidental', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+        
+        {% endif %}
+
+    {% elif assigned_data.toy2 == 'TubeToy' %}
+    <a href="{{ url_for('learningBox', child=child) }}" class="icon rightArrowIcon" id="playtime-over-arrow"></a>
+    
+    {% else %}
+        <p>Error</p>
+    {% endif %}
+    
+</div>
+
+<!-- White Duck Pop-up Noise -->
+<audio id="notification-sound1" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/whiteRubberDuck-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<audio id="notification-sound2" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/starLight-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Squeaker Noise -->
+<!-- Build: https://freesound.org/people/tim.kahn/sounds/250127/-->
+<audio id="notification-sound3" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/squeaker-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Duck Dome Dissolve/Build Noise -->
+<!-- Build: https://freesound.org/people/tim.kahn/sounds/250127/-->
+<audio id="notification-sound4Dissolve" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/domeDissolve-sound.mp3') }}" type="audio/mpeg">
+</audio>
+<audio id="notification-sound4Build" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/domeBuild-sound.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- <audio id="notification-sound2" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/inertToggle-sound.mp3') }}" type="audio/mpeg">
+</audio> -->
+
+<!-- Container for the interactive elements -->
+    <div class="toy-container" data-toy="TubeToy">
+
+        <!-- Container for the image hotspot and interactive elements -->
+        <div class="image-hotspot">
+
+            <!-- Base image -->
+            <img src="{{ url_for('static', filename='images/tubeToy/tubeToyBase.png') }}" alt="tubeToy hotspot should be here">
+
+            <!-- TUBE TOY FUNCTIONS START HERE -->
+            <!-- White Duck Function -->
+            <!-- Icon for interaction -->
+            <div class="icon whiteDuckIcon" id="whiteDuck function1">
+            </div>
+            
+            <!-- Image within the function-box -->
+            <img class="function whiteDuckImage squeak off initial" id="function1" src="{{ url_for('static', filename='images/tubeToy/function1_rubberDuck.png') }}" alt="white duck">
+            <!--  White Duck Function End -->
+
+            <!-- Inert Duck -->
+            <div class="icon inertDuckIcon off initial" id="inertDuck inert1"></div>
+            <!--  -->
+
+            <!--  -->
+            <!-- Inert Toggle Function -->
+            <!-- Icon for interaction -->
+            <div class="icon inertToggleIcon off initial" id="toggleUp inert2"></div>
+            
+            <!-- Image-->
+            <img src="{{ url_for('static', filename='images/tubeToy/inertToggleBase.png') }}" alt="base of inert toggle" id="inertToggleBase">
+            <img class="function inertToggleImage off initial" id="inert2" src="{{ url_for('static', filename='images/tubeToy/inertTogglePiece.png') }}" alt="metal toggle">
+            <img class="function inertToggleImage off initial" id="inert2" src="{{ url_for('static', filename='images/tubeToy/inertTogglePiece.png') }}" alt="metal toggle">
+            <!--  Inert Toggle End -->
+            <!--  -->
+            
+            <!--  -->
+            <!-- Star Light Function -->
+            <!-- Icon for interaction -->
+            <div class="icon starLightButtonIcon off initial" id="starLightButton function2"></div>
+            <!-- line with "on" status for testing/dev purposes -->
+            <!-- <div class="icon starLightButtonIcon on initial" id="icon2 starLight function2"></div> -->
+
+            <!-- Function Image-->
+            <img class="function starLightButtonImage off initial" id="starBulb function2" src="{{ url_for('static', filename='images/tubeToy/redLightButtonOff.png') }}" alt="button for star light">
+            <img class="function starLightImage off initial" id="starBulb inert3" src="{{ url_for('static', filename='images/tubeToy/starBulbOn.png') }}" alt="button for star light">
+
+            <!-- Inert Lightbulb -->
+            <div class="icon starLightBulbIcon" id="starBulb inert3"></div>
+            
+            <!--  Star Light End -->
+            <!--  -->
+
+            <!--  -->
+            <!-- Squeaker Function -->
+            <!-- Icon for interaction -->
+            <div class="icon squeakerIcon off initial" id="squeaker function3"></div>
+
+            <!-- Function Image -->
+            <img class="function squeakerImage off initial" src="{{ url_for('static', filename='images/tubeToy/squeakerOn.png') }}" alt="squeaker tube function">
+
+            <!--  Squeaker End -->
+            <!--  -->
+
+            <!--  -->
+            <!-- Duck Dome Function -->
+            <!-- Icon for interaction -->
+            <div class="icon leverIcon off initial" id="duckLever function4"></div>
+            <!-- line with "on" status for testing/dev purposes -->
+            <!-- <div class="icon starLightButtonIcon on initial" id="icon2 starLight function2"></div> -->
+
+            <!-- Function Image-->
+            <img class="function leverImage off initial" id="duckLever function4" src="{{ url_for('static', filename='images/tubeToy/domeLever.png') }}" alt="lever that reveals duck">
+            <img class="function duckDomeImage off initial" id="duckDome inert4" src="{{ url_for('static', filename='images/tubeToy/domeOnDuck_Clear.png') }}" alt="dome with duck inside">
+
+            <!-- Inert Dome/Duck -->
+            <div class="icon inertDomeIcon off initial" id="duckDome inert4"></div>
+            
+            <!--  Duck Dome  End -->
+            <!--  -->
+
+            <!-- TUBE TOY FUNCTIONS END HERE -->
+            
+            <div class="icon blank-space-icon" id="blankClick"></div>
+        </div>
+
+        <!-- click to prompt stopping criteria -->
+        <div class="rightArrowIcon icon allDone" id="allDoneIcon"></div>
+        <img id="allDone" src="{{ url_for('static', filename='images/instructions/allDone.png') }}" alt="all done arrow image">
+
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ url_for('static', filename='interaction.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+# list of things for git to ignore when uploading
+env/
+config.json
+/__pycache__
+current_requirements.txt
+static/sounds/rawFiles
+static/images/learningMeasures/functionsVideos
+static/sounds/instructions/elizabethRecordings
+static/sounds/instructions/oldIgnore
+static/sounds/instructions/originalRecordings
+directory_for_joseph_sanity.html
+static/manipulation.js
+.psd
+Lonnie JSON code - CRADLE.docx

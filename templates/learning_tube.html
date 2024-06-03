@@ -1,0 +1,71 @@
+<!-- learningtube.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/learning.css') }}">
+
+<!-- Start learning assessment button -->
+<div class="learn-toy-button">
+
+    <!-- "Play button" because you can't autoplay anything and I don't know how to make an SPA  ¯\_(ツ)_/¯-->
+    <img class="learn-toy-text" src="{{ url_for('static', filename='images/instructions/clickLearning.png') }}" alt="video play text here">
+    <img class="learn-toy-button" src="{{ url_for('static', filename='images/instructions/playStart.png') }}" alt="video play button here" id="info">
+    
+</div>
+
+<audio id="learningStart" preload="auto">
+    <!-- Joseph, unedited -->
+    <!-- <source src="{{ url_for('static', filename='sounds/instructions/originalRecordings/learningStart.mp3') }}" type="audio/mpeg"> -->
+
+    <!-- Edited -->
+    <source src="{{ url_for('static', filename='sounds/instructions/learningStart.mp3') }}" type="audio/mpeg">
+
+</audio>
+
+<!-- Container for the interactive elements -->
+<div class="toy-container" data-toy="TubeToy">
+
+    <!-- Container for the image hotspot and interactive elements -->
+    <div class="image-hotspot">
+
+        <!-- Base image -->
+        <img src="{{ url_for('static', filename='images/learningMeasures/tubeToyBase_withLearningMeasures.png') }}" alt="tubeToy learning test should be here">
+
+        <div class="icon whiteDuckIcon" id="whiteDuck correctForFunction1" data-toy="TubeToy">
+        </div>
+
+        <div class="icon starLightButtonIcon" id="starLightButton correctForFunction2" data-toy="TubeToy">
+        </div>
+
+        <div class="icon squeakerIcon" id="squeaker correctForFunction3" data-toy="TubeToy">
+        </div>
+
+        <div class="icon leverIcon" id="domeLever correctForFunction4" data-toy="TubeToy">
+        </div>
+
+        <div class="icon blank-space-icon" id="nullAnswer blankClick" data-toy="TubeToy"></div>
+
+    </div>
+
+</div>
+
+<div class="gif-container" id="gif1">
+    <img src="{{ url_for('static', filename='images/learningMeasures/gifs/tube1.gif') }}" alt="gif function 1">
+</div>
+
+<div class="gif-container" id="gif2">
+    <img src="{{ url_for('static', filename='images/learningMeasures/gifs/tube2.gif') }}" alt="gif function 2">
+</div>
+
+<div class="gif-container" id="gif3">
+    <img src="{{ url_for('static', filename='images/learningMeasures/gifs/tube3.gif') }}" alt="gif function 3">
+</div>
+
+<div class="gif-container" id="gif4">
+    <img src="{{ url_for('static', filename='images/learningMeasures/gifs/tube4.gif') }}" alt="gif function 4">
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="{{ url_for('static', filename='learning.js') }}"></script>
+
+{% endblock %}
